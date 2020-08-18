@@ -11,6 +11,7 @@ public class MouseInputHandler implements MouseListener, MouseMotionListener, Mo
 
 	Window target;
 	Point pPos=null;
+	static WindowControler controler;
 	MouseInputHandler(Window t)
 	{
 		target=t;
@@ -44,7 +45,10 @@ public class MouseInputHandler implements MouseListener, MouseMotionListener, Mo
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getButton()==MouseEvent.BUTTON1)
+			controler.splitVerticaly(target);
+		else if(e.getButton()==MouseEvent.BUTTON3)
+			controler.splitHorizontaly(target);
 		
 	}
 

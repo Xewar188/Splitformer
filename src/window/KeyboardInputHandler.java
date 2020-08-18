@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyboardInputHandler implements KeyListener {
 
 	Window target;
+	static WindowControler controler;
 	KeyboardInputHandler(Window t)
 	{
 		target=t;
@@ -24,7 +25,7 @@ public class KeyboardInputHandler implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode()==KeyEvent.VK_ESCAPE)
 		{
-			target.dispose();
+			controler.dispose();
 		}
 		
 	}
