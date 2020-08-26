@@ -46,9 +46,9 @@ public class MouseInputHandler implements MouseListener, MouseMotionListener, Mo
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getButton()==MouseEvent.BUTTON1)
-			controler.splitVerticaly(target);
+			controler.splitVerticaly(target,e.getPoint().x);
 		else if(e.getButton()==MouseEvent.BUTTON3)
-			controler.splitHorizontaly(target);
+			controler.splitHorizontaly(target,e.getPoint().y);
 		
 	}
 

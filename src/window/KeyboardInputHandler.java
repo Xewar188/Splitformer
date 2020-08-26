@@ -27,12 +27,31 @@ public class KeyboardInputHandler implements KeyListener {
 		{
 			controler.dispose();
 		}
+		if(e.getKeyCode()==KeyEvent.VK_W)
+		{
+			controler.player.jump();
+		}
+		if(e.getKeyCode()==KeyEvent.VK_D)
+		{
+			controler.player.isMovingRight=true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_A)
+		{
+			controler.player.isMovingLeft=true;
+		}
 		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getKeyCode()==KeyEvent.VK_D)
+		{
+			controler.player.isMovingRight=false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_A)
+		{
+			controler.player.isMovingLeft=false;
+		}
 		
 	}
 

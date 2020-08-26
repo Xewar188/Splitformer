@@ -4,8 +4,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
-		new WindowControler();
+		
+		
+		var main =new WindowControler();
+		main.repainter.start();
 	}
 
 }
