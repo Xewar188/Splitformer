@@ -1,5 +1,6 @@
 package playground;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -30,7 +31,6 @@ public class Playground extends JPanel {
 			
 				g2d.setColor(content.bluePrint[i][j].main);
 				g2d.fill(new Rectangle(i*completeSize.width/Map.COLUMNS-frame.x,j*completeSize.height/Map.ROWS-frame.y,completeSize.width/Map.COLUMNS,completeSize.height/Map.ROWS));
-				
 			}
 		
 		if(player!=null)
@@ -45,7 +45,8 @@ public class Playground extends JPanel {
 		player=null;
 	}
 	public boolean isInFrame(int i, int j) {
-		return i>=frame.x*Map.COLUMNS/completeSize.width&&i<=(frame.x+frame.width)*Map.COLUMNS/completeSize.width
-				&&j>=frame.y*Map.ROWS/completeSize.height&&j<=(frame.y+frame.height)*Map.ROWS/completeSize.height;
+		return i>=0&&i<Map.COLUMNS&&j>=0&&j<Map.ROWS&&
+				i>=frame.x*Map.COLUMNS/completeSize.width-1&&i<(frame.x+frame.width)*Map.COLUMNS/completeSize.width+1
+				&&j>=frame.y*Map.ROWS/completeSize.height-1&&j<(frame.y+frame.height)*Map.ROWS/completeSize.height+1;
 	}
 }

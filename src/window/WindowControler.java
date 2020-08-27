@@ -14,7 +14,7 @@ import playground.Map;
 
 public class WindowControler {
 
-	Vector<Window> windows= new Vector<Window>();
+	public Vector<Window> windows= new Vector<Window>();
 	public Map mainMap;
 	Rectangle startSize;
 	Player player;
@@ -23,8 +23,9 @@ public class WindowControler {
 	    	 for(Window w : windows)
 	    	 {
 	    		 w.repaint();
-	    		 player.move();
+	    		 
 	    	 }
+	    	 player.move();
 	      }
 	      });
 	public WindowControler()
@@ -53,15 +54,39 @@ public class WindowControler {
 	{
 		
 		windows.remove(w);
+		w.main.removePlayer();
 		windows.add(new Window(new Dimension(x,w.getSize().height),new Dimension(w.getLocation().x,w.getLocation().y),mainMap,startSize,w.x,w.y));
 		windows.add(new Window(new Dimension(w.getSize().width-x,w.getSize().height),new Dimension(w.getLocation().x+x,w.getLocation().y),mainMap,startSize,w.x+x,w.y));
+		if(player.main==w)
+		{
+			if(windows.get(windows.size()-2).getBounds().contains(player.frame.x+player.mapLocation.x,player.frame.y+player.mapLocation.y))
+			{
+				player.setMainWindow(windows.get(windows.size()-2));
+			}
+			else
+			{
+				player.setMainWindow(windows.get(windows.size()-1));
+			}
+		}
 		w.dispose();
 	}
 	public void splitHorizontaly(Window w,int y)
 	{
 		windows.remove(w);
+		w.main.removePlayer();
 		windows.add(new Window(new Dimension(w.getSize().width,y),new Dimension(w.getLocation().x,w.getLocation().y),mainMap,startSize,w.x,w.y));
 		windows.add(new Window(new Dimension(w.getSize().width,w.getSize().height-y),new Dimension(w.getLocation().x,w.getLocation().y+y),mainMap,startSize,w.x,w.y+y));
+		if(player.main==w)
+		{
+			if(windows.get(windows.size()-2).getBounds().contains(player.frame.x+player.mapLocation.x,player.frame.y+player.mapLocation.y))
+			{
+				player.setMainWindow(windows.get(windows.size()-2));
+			}
+			else
+			{
+				player.setMainWindow(windows.get(windows.size()-1));
+			}
+		}
 		w.dispose();
 	}
 }

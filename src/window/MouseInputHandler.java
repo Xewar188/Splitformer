@@ -34,7 +34,10 @@ public class MouseInputHandler implements MouseListener, MouseMotionListener, Mo
 	public void mouseDragged(MouseEvent e) {
 		target.setLocation(target.getLocation().x+e.getLocationOnScreen().x-pPos.x, target.getLocation().y+e.getLocationOnScreen().y-pPos.y);
 		pPos=e.getLocationOnScreen();
-		
+		if(controler.player.main==target)
+		{
+			controler.player.frame.setFrame(target.getBounds());
+		}
 	}
 
 	@Override
