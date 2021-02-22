@@ -9,11 +9,12 @@ public abstract class CellBase {
 	public Color main=Color.black;
 	public char id='-';
 	public char typeId='-';
+	public boolean splitable = true;
 	public CellBase()
 	{
 		
 	}
-	static Connector[] compedium= {new Connector('0',a->new Air()),new Connector('1',a->new Stone()),new Connector('3',a->new SpawnPoint())};
+	static Connector[] compedium= {new Connector('0',a->new Air()),new Connector('1',a->new Stone()),new Connector('2',a->new Goal()),new Connector('3',a->new SpawnPoint())};
 	
 	public static CellBase getByID(char read) {
 		

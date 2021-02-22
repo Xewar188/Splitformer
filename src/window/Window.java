@@ -22,7 +22,7 @@ public class Window extends JFrame {
 		this.setSize(size.width, size.height);
 		this.setLocation(pos.width, pos.height);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		main=new Playground(new Rectangle(x,y,this.getWidth(),this.getHeight()), map, maxSize);
+		main=new Playground(new Rectangle(x,y,this.getWidth(),this.getHeight()), map, maxSize,this);
 		this.add(main);
 		KeyboardInputHandler.wrapWindow(this);
 		MouseInputHandler.wrapWindow(this);

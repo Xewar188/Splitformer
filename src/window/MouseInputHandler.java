@@ -1,11 +1,14 @@
 package window;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+
+import metaparts.Player;
 
 public class MouseInputHandler implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -33,10 +36,14 @@ public class MouseInputHandler implements MouseListener, MouseMotionListener, Mo
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		target.setLocation(target.getLocation().x+e.getLocationOnScreen().x-pPos.x, target.getLocation().y+e.getLocationOnScreen().y-pPos.y);
-		pPos=e.getLocationOnScreen();
-		if(controler.player.main==target)
+		if(WindowControler.player.main==null||WindowControler.player.isOnEdgeOfWindow(WindowControler.player.main).x != 0||WindowControler.player.isOnEdgeOfWindow(WindowControler.player.main).y != 0)
 		{
-			controler.player.frame.setFrame(target.getBounds());
+		WindowControler.player.correctLocation(new Point((int)-Math.signum(e.getLocationOnScreen().x-pPos.x),(int) -Math.signum(e.getLocationOnScreen().y-pPos.y)));
+		}
+		pPos=e.getLocationOnScreen();
+		if(WindowControler.player.main==target)
+		{
+			WindowControler.player.frame=new Rectangle(target.getBounds());
 		}
 	}
 
@@ -48,10 +55,12 @@ public class MouseInputHandler implements MouseListener, MouseMotionListener, Mo
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(WindowControler.player.main==null)
+			return;
 		if(e.getButton()==MouseEvent.BUTTON1)
-			controler.splitVerticaly(target,e.getPoint().x);
+			controler.splitVerticaly(WindowControler.player.main,WindowControler.player.mapLocation.x);
 		else if(e.getButton()==MouseEvent.BUTTON3)
-			controler.splitHorizontaly(target,e.getPoint().y);
+			controler.splitHorizontaly(WindowControler.player.main,WindowControler.player.mapLocation.y-WindowControler.player.height/2);
 		
 	}
 

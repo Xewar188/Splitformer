@@ -52,7 +52,10 @@ public class KeyboardInputHandler implements KeyListener {
 		{
 			controler.player.isMovingLeft=false;
 		}
-		
+		if(e.getKeyCode()==KeyEvent.VK_W)
+		{
+			controler.player.endJump();
+		}
 	}
 
 }

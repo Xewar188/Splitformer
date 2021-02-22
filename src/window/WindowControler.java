@@ -17,7 +17,7 @@ public class WindowControler {
 	public Vector<Window> windows= new Vector<Window>();
 	public Map mainMap;
 	Rectangle startSize;
-	Player player;
+	public static Player player;
 	Timer repainter= new Timer(50/3,new ActionListener() {
 	      public void actionPerformed(ActionEvent evt) {
 	    	 for(Window w : windows)
@@ -41,6 +41,10 @@ public class WindowControler {
 		player=new Player(mainMap,windows.firstElement(),this,windows.firstElement().getBounds());
 		
 	}
+	public void endLevel()
+	{
+		System.out.println("end");
+	}
 	public void dispose()
 	{
 		for(Window w:windows)
@@ -52,9 +56,13 @@ public class WindowControler {
 	}
 	public void splitVerticaly(Window w,int x)
 	{
-		
+		for(int i = 0;i<=w.getBounds().height*Map.ROWS/startSize.height;i++)
+		{
+			
+			if(!mainMap.bluePrint[Math.max(Math.min((x+w.main.frame.x)*Map.COLUMNS/startSize.width, Map.COLUMNS-1),0)][Math.max(Math.min(i+(w.main.frame.y)*Map.ROWS/startSize.height, Map.ROWS-1),0)].splitable)
+				return;
+		}
 		windows.remove(w);
-		w.main.removePlayer();
 		windows.add(new Window(new Dimension(x,w.getSize().height),new Dimension(w.getLocation().x,w.getLocation().y),mainMap,startSize,w.x,w.y));
 		windows.add(new Window(new Dimension(w.getSize().width-x,w.getSize().height),new Dimension(w.getLocation().x+x,w.getLocation().y),mainMap,startSize,w.x+x,w.y));
 		if(player.main==w)
@@ -72,8 +80,13 @@ public class WindowControler {
 	}
 	public void splitHorizontaly(Window w,int y)
 	{
+		for(int i = 0;i<=w.getBounds().width*Map.COLUMNS/startSize.width;i++)
+		{
+			if(!mainMap.bluePrint[Math.max(Math.min(i+(w.main.frame.x)*Map.COLUMNS/startSize.width, Map.COLUMNS-1),0)][Math.max(Math.min((y+w.main.frame.y)*Map.ROWS/startSize.height, Map.ROWS-1),0)].splitable)
+				return;
+			
+		}
 		windows.remove(w);
-		w.main.removePlayer();
 		windows.add(new Window(new Dimension(w.getSize().width,y),new Dimension(w.getLocation().x,w.getLocation().y),mainMap,startSize,w.x,w.y));
 		windows.add(new Window(new Dimension(w.getSize().width,w.getSize().height-y),new Dimension(w.getLocation().x,w.getLocation().y+y),mainMap,startSize,w.x,w.y+y));
 		if(player.main==w)

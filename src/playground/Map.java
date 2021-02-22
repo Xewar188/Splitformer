@@ -8,8 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import cells.CellBase;
-import cells.SpawnPoint;
-import cells.Stone;
 
 public class Map {
 
@@ -35,7 +33,7 @@ public class Map {
 				
 				bluePrint[i][j]=CellBase.getByID((char)reader.read());
 			}
-		bluePrint[2][ROWS-4]=new Stone();
+		
 		
 	}
 	void save(String string) throws IOException
