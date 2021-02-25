@@ -1,6 +1,7 @@
 package window;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -25,9 +26,13 @@ public class WindowControler {
 	    		 w.repaint();
 	    		 
 	    	 }
+	    	 if(!inEditorMode)
 	    	 player.move();
 	      }
 	      });
+	
+	public boolean inEditorMode=false;
+	public int currentType=0;
 	public WindowControler()
 	{	
 		mainMap=new Map();
@@ -101,5 +106,49 @@ public class WindowControler {
 			}
 		}
 		w.dispose();
+	}
+	public void merge()
+	{
+		Window temp = new Window(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width/2, Toolkit.getDefaultToolkit().getScreenSize().height/2),new Dimension(startSize.x,startSize.y),mainMap,startSize,0,0);
+		if(WindowControler.player.main!=null)
+		{
+			var temppos = new Point(WindowControler.player.mapLocation.x+player.main.main.frame.x,WindowControler.player.mapLocation.y+player.main.main.frame.y);
+			player.setMainWindow(temp);
+			player.setMapLocation(temppos);
+		}
+		for(Window w : windows)
+		{
+			w.dispose();
+		}
+		windows.clear();
+		
+		windows.add(temp);
+	}
+	public void enterEditorMode() {
+		inEditorMode=true;
+		for(Window w:windows)
+		{
+			w.setVisible(false);
+		}
+		windows.add(new Window(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width/2, Toolkit.getDefaultToolkit().getScreenSize().height/2)
+				,new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width/4, Toolkit.getDefaultToolkit().getScreenSize().height/4)
+				,mainMap,startSize,0,0));
+		
+	}
+	public void exitEditorMode() {
+		inEditorMode=false;	
+		windows.lastElement().dispose();
+		windows.remove(windows.lastElement());
+		for(Window w:windows)
+		{
+			w.setVisible(true);
+		}
+	}
+	public Point getCellPoint(int x, int y)
+	{
+		if(windows.lastElement().contains(x,y))
+		return new Point(x*Map.COLUMNS/startSize.width,y*Map.ROWS/startSize.height);
+		else
+			return new Point(0,0);
 	}
 }

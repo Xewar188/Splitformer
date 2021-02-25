@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
 
+import cells.CellBase;
 import cells.Goal;
 import playground.Map;
 import window.Window;
@@ -62,6 +63,11 @@ public void setCell(int x, int y)
 	{
 		controler.endLevel();
 	}
+}
+public void setMapLocation(Point pos)
+{
+	mapLocation.setLocation(pos);
+	realMapLocation.setLocation(mapLocation);
 }
 public void setMainWindow(Window w)
 {
@@ -395,7 +401,6 @@ public void correctLocation(Point p)
 
 public void move()
 {
-	
 	if(main!=null)
 	{
 		int i, j;

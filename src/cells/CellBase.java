@@ -15,6 +15,7 @@ public abstract class CellBase {
 		
 	}
 	static Connector[] compedium= {new Connector('0',a->new Air()),new Connector('1',a->new Stone()),new Connector('2',a->new Goal()),new Connector('3',a->new SpawnPoint())};
+	public static char[] idCompedium= {'0','1','2','3'};
 	
 	public static CellBase getByID(char read) {
 		
