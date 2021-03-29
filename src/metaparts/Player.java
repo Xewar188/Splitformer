@@ -7,7 +7,6 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.geom.Point2D;
 
-import cells.CellBase;
 import cells.Goal;
 import playground.Map;
 import window.Window;

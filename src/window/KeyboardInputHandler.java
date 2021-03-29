@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class KeyboardInputHandler implements KeyListener {
 

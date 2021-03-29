@@ -24,8 +24,8 @@ public class Map {
 	{
 		
 		try {
-			load("main0");
-			save("main0");
+			load("basic1");
+			//save("main0");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -39,11 +39,13 @@ public class Map {
 		bluePrint[x][y]=CellBase.getByID(id);
 		if(bluePrint[x][y] instanceof Goal&&( x!=endLocation.x|| y!=endLocation.y))
 		{
+			if(bluePrint[endLocation.x][endLocation.y] instanceof Goal)
 			setCell(endLocation,'0');
 			endLocation=new Point(x,y);
 		}
 		else if(bluePrint[x][y] instanceof SpawnPoint&&( x!=startLocation.x|| y!=startLocation.y))
 		{
+			if(bluePrint[startLocation.x][startLocation.y] instanceof SpawnPoint)
 			setCell(startLocation,'0');
 			startLocation=new Point(x,y);
 		}
