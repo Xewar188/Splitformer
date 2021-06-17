@@ -6,8 +6,8 @@ public class Air extends CellBase {
 	
 	public Air()
 	{
-		tangible=false;
-		main=Color.blue;
-		id='0';
+		tangible = false;
+		main = Color.blue;
+		id = '0';
 	}
 }

@@ -7,8 +7,8 @@ public class SpawnPoint extends CellBase {
 	
 	public SpawnPoint()
 	{
-		tangible=false;
-		main=Color.cyan;
-		id='3';
+		tangible = false;
+		main = Color.cyan;
+		id = '3';
 	}
 }

@@ -14,8 +14,8 @@ import cells.SpawnPoint;
 
 public class Map {
 
-	public static final int COLUMNS=40,ROWS=20;
-	public CellBase[][] bluePrint=new CellBase[COLUMNS][ROWS];
+	public static final int COLUMNS = 40,ROWS = 20;
+	public CellBase[][] bluePrint = new CellBase[COLUMNS][ROWS];
 
 	public Point startLocation;
 	public Point endLocation;
@@ -24,62 +24,66 @@ public class Map {
 	{
 		
 		try {
-			load("basic1");
+			load("main0");
 			//save("main0");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	public void setCell(Point a,char id)
+	
+	public void setCell(Point a, char id)
 	{
-		setCell(a.x,a.y,id);
+		setCell(a.x, a.y, id);
 	}
+	
 	public void setCell(int x, int y, char id)
 	{
-		bluePrint[x][y]=CellBase.getByID(id);
-		if(bluePrint[x][y] instanceof Goal&&( x!=endLocation.x|| y!=endLocation.y))
+		bluePrint[x][y] = CellBase.getByID(id);
+		if (bluePrint[x][y] instanceof Goal && ( x != endLocation.x || y != endLocation.y))
 		{
-			if(bluePrint[endLocation.x][endLocation.y] instanceof Goal)
-			setCell(endLocation,'0');
-			endLocation=new Point(x,y);
+			if (bluePrint[endLocation.x][endLocation.y] instanceof Goal)
+				setCell(endLocation, '0');
+			endLocation = new Point(x, y);
 		}
-		else if(bluePrint[x][y] instanceof SpawnPoint&&( x!=startLocation.x|| y!=startLocation.y))
+		else if (bluePrint[x][y] instanceof SpawnPoint && ( x != startLocation.x || y != startLocation.y))
 		{
-			if(bluePrint[startLocation.x][startLocation.y] instanceof SpawnPoint)
-			setCell(startLocation,'0');
-			startLocation=new Point(x,y);
+			if (bluePrint[startLocation.x][startLocation.y] instanceof SpawnPoint)
+				setCell(startLocation,'0');
+			startLocation = new Point(x,y);
 		}
 	}
+	
 	public void load(String string) throws IOException {
-		File targ= new File("maps\\"+string+".txt");
-		@SuppressWarnings("resource")
+		File targ= new File("maps\\" + string + ".txt");
 		BufferedReader reader= new BufferedReader(new FileReader(targ));
-		for(int j=0; j<ROWS;j++)
-			for(int i=0;i<COLUMNS;i++)
+		for (int j = 0; j < ROWS; j++)
+			for (int i = 0; i < COLUMNS; i++)
 			{
-					bluePrint[i][j]=CellBase.getByID((char)reader.read());
+					bluePrint[i][j] = CellBase.getByID((char)reader.read());
 					if(bluePrint[i][j] instanceof Goal)
 					{
-						endLocation=new Point(i,j);
+						endLocation = new Point(i,j);
 					}
 					else if(bluePrint[i][j] instanceof SpawnPoint)
 					{
-						startLocation=new Point(i,j);
+						startLocation = new Point(i,j);
 					}
 			}
+		reader.close();
 		
 		
 	}
+	
 	public void save(String string) throws IOException
 	{
-		File targ= new File("maps\\"+string+".txt");
-		BufferedWriter writer= new BufferedWriter(new FileWriter(targ));
+		File targ = new File("maps\\"+string+".txt");
+		BufferedWriter writer = new BufferedWriter(new FileWriter(targ));
 		
-		for(int j=0; j<ROWS;j++)
+		for (int j = 0; j < ROWS; j++)
 		{
-			for(int i=0;i<COLUMNS;i++)
+			for (int i = 0; i < COLUMNS; i++)
 			{
-			writer.append(bluePrint[i][j].id);
+			writer.append(bluePrint[i][j].getId());
 			}
 		}
 		writer.close();
