@@ -5,22 +5,24 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.function.Consumer;
 
+import javax.swing.JFrame;
+
 public class KeyboardInputHandler implements KeyListener {
 
-	Window target;
-	static WindowControler controler;
-	boolean writing = false;
-	String message = "";
-	Consumer<String> endMessage;
+	private static WindowControler controler;
+	private boolean writing = false;
+	private String message = "";
+	private Consumer<String> endMessage;
 	
-	KeyboardInputHandler(Window t)
-	{
-		target = t;
+	public static void setControler (WindowControler c) {
+		controler = c;
 	}
 	
-	static void wrapWindow(Window w)
+	public KeyboardInputHandler(){}
+	
+	public static void wrapWindow(JFrame w)
 	{
-		w.addKeyListener(new KeyboardInputHandler(w));
+		w.addKeyListener(new KeyboardInputHandler());
 	}
 	
 	public void keyTyped(KeyEvent e) {
@@ -51,7 +53,7 @@ public class KeyboardInputHandler implements KeyListener {
 				message = message + e.getKeyChar();
 				return;
 			}
-		if (controler.inEditorMode)
+		if (controler.isInEditorMode())
 		{
 			if (e.getKeyCode() == KeyEvent.VK_P || 
 					e.getKeyCode() == KeyEvent.VK_ESCAPE)
@@ -65,7 +67,7 @@ public class KeyboardInputHandler implements KeyListener {
 				writing = true;
 				endMessage=a->{
 					try {
-						controler.mainMap.save(a);
+						controler.getMainMap().save(a);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -79,13 +81,13 @@ public class KeyboardInputHandler implements KeyListener {
 					controler.dispose();
 					break;
 				case KeyEvent.VK_W:
-					WindowControler.player.jump();
+					WindowControler.getPlayer().jump();
 					break;
 				case KeyEvent.VK_D:
-					WindowControler.player.velocity.setLocation(2, WindowControler.player.velocity.getY());
+					WindowControler.getPlayer().setVelocity(2, WindowControler.getPlayer().getVelocity().getY());
 					break;
 				case KeyEvent.VK_A:
-					WindowControler.player.velocity.setLocation(-2, WindowControler.player.velocity.getY());
+					WindowControler.getPlayer().setVelocity(-2, WindowControler.getPlayer().getVelocity().getY());
 					break;
 				case KeyEvent.VK_M:
 					controler.merge();
@@ -103,18 +105,19 @@ public class KeyboardInputHandler implements KeyListener {
 			return;
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_W:
-			WindowControler.player.endJump();
+			WindowControler.getPlayer().endJump();
 			break;
 		case KeyEvent.VK_D:
-			if (WindowControler.player.velocity.getX() > 0)
-				WindowControler.player.velocity.setLocation(0, WindowControler.player.velocity.getY());
+			if (WindowControler.getPlayer().getVelocity().getX() > 0)
+				WindowControler.getPlayer().setVelocity(0, WindowControler.getPlayer().getVelocity().getY());
 			break;
 		case KeyEvent.VK_A:
-			if (WindowControler.player.velocity.getX() < 0)
-				WindowControler.player.velocity.setLocation(0, WindowControler.player.velocity.getY());
+			if (WindowControler.getPlayer().getVelocity().getX() < 0)
+				WindowControler.getPlayer().setVelocity(0, WindowControler.getPlayer().getVelocity().getY());
 			break;
 		}
 		
 	}
+
 
 }

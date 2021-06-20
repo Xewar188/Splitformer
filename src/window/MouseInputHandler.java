@@ -9,18 +9,25 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import cells.CellBase;
+import metaparts.Player;
 
 public class MouseInputHandler implements MouseListener, MouseMotionListener, MouseWheelListener {
 
-	Window target;
-	Point pPos = null;
-	static WindowControler controler;
-	MouseInputHandler(Window t)
+	private Window target;
+	private Point pPos = null;
+	private static WindowControler controler;
+	
+	public MouseInputHandler(Window t)
 	{
 		target=t;
 		
 	}
-	static void wrapWindow(Window w)
+	
+	public static void setControler (WindowControler c) {
+		controler = c;
+	}
+	
+	public static void wrapWindow(Window w)
 	{
 		MouseInputHandler h = new MouseInputHandler(w);
 		w.addMouseListener(h);
@@ -29,11 +36,11 @@ public class MouseInputHandler implements MouseListener, MouseMotionListener, Mo
 	}
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		if(controler.inEditorMode)
+		if(controler.isInEditorMode())
 		{
-			controler.currentType=((int) (controler.currentType +
-											CellBase.idCompedium.length + 
-											Math.signum(e.getWheelRotation()))) % CellBase.idCompedium.length;
+			controler.setCurrentType(((int) (controler.getCurrentType() +
+											CellBase.getCompediumLength() + 
+											Math.signum(e.getWheelRotation()))) % CellBase.getCompediumLength());
 		}
 	}
 
@@ -41,29 +48,29 @@ public class MouseInputHandler implements MouseListener, MouseMotionListener, Mo
 	public void mouseDragged(MouseEvent e) {
 		if (pPos == null)
 			pPos = e.getLocationOnScreen();
-		if(controler.inEditorMode)
+		if(controler.isInEditorMode())
 		{
-			controler.mainMap.setCell(controler.getCellFromPointEditor(e.getX(), e.getY()),
-										CellBase.idCompedium[controler.currentType]);
+			controler.getMainMap().setCell(controler.getCellFromPointEditor(e.getX(), e.getY()),
+										CellBase.getIdFromCompedium(controler.getCurrentType()));
 		}
 		else
 		{
 			target.setLocation(target.getLocation().x + e.getLocationOnScreen().x - pPos.x, 
 								target.getLocation().y + e.getLocationOnScreen().y - pPos.y);
 			
-			if(WindowControler.player.main == null || 
-					WindowControler.player.isOnEdgeOfWindow(WindowControler.player.main).x != 0 ||
-					WindowControler.player.isOnEdgeOfWindow(WindowControler.player.main).y != 0)
+			if(WindowControler.getPlayer().getCurrentWindow() == null || 
+					WindowControler.getPlayer().isOnEdgeOfWindow(WindowControler.getPlayer().getCurrentWindow()).x != 0 ||
+					WindowControler.getPlayer().isOnEdgeOfWindow(WindowControler.getPlayer().getCurrentWindow()).y != 0)
 			{
-			WindowControler.player.correctLocation(new Point((int) -Math.signum(e.getLocationOnScreen().x - pPos.x),
+			WindowControler.getPlayer().correctLocation(new Point((int) -Math.signum(e.getLocationOnScreen().x - pPos.x),
 																(int) -Math.signum(e.getLocationOnScreen().y - pPos.y)));
 			}
 			
 			pPos = e.getLocationOnScreen();
 			
-			if(WindowControler.player.main == target)
+			if(WindowControler.getPlayer().getCurrentWindow() == target)
 			{
-				WindowControler.player.frame = new Rectangle(target.getBounds());
+				WindowControler.getPlayer().setCurrentOffset(new Rectangle(target.getBounds()));
 			}
 		
 		}
@@ -71,25 +78,26 @@ public class MouseInputHandler implements MouseListener, MouseMotionListener, Mo
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(!controler.inEditorMode)
+		if(!controler.isInEditorMode())
 		{
-		if(WindowControler.player.main == null)
+		if(WindowControler.getPlayer().getCurrentWindow() == null || 
+				!WindowControler.getPlayer().isOnEdgeOfWindow(WindowControler.getPlayer().getCurrentWindow()).equals(new Point(0,0)))
 			return;
 		if(e.getButton() == MouseEvent.BUTTON1)
-			controler.splitVerticaly(WindowControler.player.main,
-										WindowControler.player.mapLocation.x);
+			controler.splitVerticaly(WindowControler.getPlayer().getCurrentWindow(),
+										WindowControler.getPlayer().getLocation().x);
 		else if(e.getButton() == MouseEvent.BUTTON3)
-			controler.splitHorizontaly(WindowControler.player.main,
-										WindowControler.player.mapLocation.y);
+			controler.splitHorizontaly(WindowControler.getPlayer().getCurrentWindow(),
+										WindowControler.getPlayer().getLocation().y - Player.height/2);
 		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(controler.inEditorMode)
+		if(controler.isInEditorMode())
 		{
-			controler.mainMap.setCell(controler.getCellFromPointEditor(e.getX(), e.getY()),
-										CellBase.idCompedium[controler.currentType]);
+			controler.getMainMap().setCell(controler.getCellFromPointEditor(e.getX(), e.getY()),
+										CellBase.getIdFromCompedium(controler.getCurrentType()));
 		}
 		else
 		{

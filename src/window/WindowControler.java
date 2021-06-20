@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import javax.swing.Timer;
 
+import cells.CellBase;
 import metaparts.Player;
 import playground.Map;
 import playground.Playground;
@@ -17,13 +18,13 @@ import playground.Playground;
 public class WindowControler {
 
 	public Vector<Window> windows = new Vector<Window>();
-	public Map mainMap;
-	Rectangle startSize;
-	public static Player player;
-	public boolean inEditorMode = false;
-	public int currentType = 0;
+	private Map mainMap;
+	private Rectangle startSize;
+	private static Player player;
+	private boolean inEditorMode = false;
+	private int currentType = 0;
 	
-	Timer repainter = new Timer(50/3, new ActionListener() {
+	private Timer repainter = new Timer(50/3, new ActionListener() {
 	      public void actionPerformed(ActionEvent evt) {
 	    	 for(Window w : windows)
 	    	 {
@@ -34,6 +35,30 @@ public class WindowControler {
 	      }
 	      });
 	
+	public static Player getPlayer() {
+		return player;
+	}
+	
+	public boolean isInEditorMode() {
+		return inEditorMode;
+	}
+	
+	public int getCurrentType() {
+		return currentType;
+	}
+	
+	public void startPainting() {
+		repainter.start();
+	}
+	
+	protected Map getMainMap() {
+		return mainMap;
+	}
+	
+	public CellBase getCell(int x, int y) {
+		return mainMap.getCell(x, y);
+	}
+	
 	public WindowControler()
 	{	
 		mainMap = new Map();
@@ -41,12 +66,12 @@ public class WindowControler {
 									Toolkit.getDefaultToolkit().getScreenSize().height/4,
 									Toolkit.getDefaultToolkit().getScreenSize().width/2, 
 									Toolkit.getDefaultToolkit().getScreenSize().height/2);
-		KeyboardInputHandler.controler = this;
-		MouseInputHandler.controler = this;
+		KeyboardInputHandler.setControler(this);
+		MouseInputHandler.setControler(this);
 		windows.add(new Window(new Dimension(startSize.width, startSize.height),
 				new Dimension(startSize.x, startSize.y), mainMap, startSize, 0, 0));
 		
-		player = new Player(mainMap, windows.firstElement(), this, windows.firstElement().getBounds());
+		player = new Player(mainMap, windows.firstElement(), this);
 		
 	}
 	
@@ -63,6 +88,7 @@ public class WindowControler {
 		}
 		windows.clear();
 		repainter.stop();
+		player.dispose();
 	}
 	
 	public void splitVerticaly(Window w, int x)
@@ -70,8 +96,8 @@ public class WindowControler {
 		for(int i = 0; i <= w.getBounds().height / Playground.getCellWidth();i++)
 		{
 			
-			if(!mainMap.bluePrint[Math.max(Math.min((x+w.main.frame.x) / Playground.getCellWidth(), Map.COLUMNS - 1),0)]
-									[Math.max(Math.min(i+(w.main.frame.y) / Playground.getCellHeight(), Map.ROWS - 1),0)].splitable)
+			if(!mainMap.getCell(Math.max(Math.min((x+w.main.getPlaygroundOffset().x) / Playground.getCellWidth(), Map.COLUMNS - 1),0),
+									Math.max(Math.min(i+(w.main.getPlaygroundOffset().y) / Playground.getCellHeight(), Map.ROWS - 1),0)).canBeSplit())
 				return;
 		}
 		windows.remove(w);
@@ -79,10 +105,10 @@ public class WindowControler {
 				new Dimension(w.getLocation().x, w.getLocation().y), mainMap, startSize, w.x, w.y));
 		windows.add(new Window(new Dimension(w.getSize().width - x, w.getSize().height),
 				new Dimension(w.getLocation().x + x, w.getLocation().y), mainMap, startSize, w.x + x, w.y));
-		if(player.main == w)
+		if(player.getCurrentWindow() == w)
 		{
-			if(windows.get(windows.size()-2).getBounds().contains(player.frame.x + player.mapLocation.x,
-																	player.frame.y + player.mapLocation.y))
+			if(windows.get(windows.size()-2).getBounds().contains(player.getCurrentOffset().x + player.getLocation().x,
+																	player.getCurrentOffset().y + player.getLocation().y))
 			{
 				player.setMainWindow(windows.get(windows.size() - 2));
 			}
@@ -98,8 +124,8 @@ public class WindowControler {
 	{
 		for(int i = 0; i <= w.getBounds().width / Playground.getCellHeight();i++)
 		{
-			if(!mainMap.bluePrint[Math.max(Math.min(i+(w.main.frame.x) / Playground.getCellWidth(), Map.COLUMNS - 1),0)]
-					[Math.max(Math.min((y+w.main.frame.y) / Playground.getCellHeight(), Map.ROWS - 1),0)].splitable)
+			if(!mainMap.getCell(Math.max(Math.min(i+(w.main.getPlaygroundOffset().x) / Playground.getCellWidth(), Map.COLUMNS - 1),0),
+					Math.max(Math.min((y+w.main.getPlaygroundOffset().y) / Playground.getCellHeight(), Map.ROWS - 1),0)).canBeSplit())
 				return;
 			
 		}
@@ -108,10 +134,10 @@ public class WindowControler {
 				new Dimension(w.getLocation().x, w.getLocation().y), mainMap, startSize, w.x, w.y));
 		windows.add(new Window(new Dimension(w.getSize().width,w.getSize().height - y),
 				new Dimension(w.getLocation().x, w.getLocation().y + y), mainMap, startSize, w.x, w.y + y));
-		if(player.main == w)
+		if(player.getCurrentWindow() == w)
 		{
-			if(windows.get(windows.size() - 2).getBounds().contains(player.frame.x + player.mapLocation.x,
-																	  player.frame.y + player.mapLocation.y))
+			if(windows.get(windows.size() - 2).getBounds().contains(player.getCurrentOffset().x + player.getLocation().x,
+																	  player.getCurrentOffset().y + player.getLocation().y))
 			{
 				player.setMainWindow(windows.get(windows.size() - 2));
 			}
@@ -127,10 +153,18 @@ public class WindowControler {
 	{
 		Window temp = new Window(new Dimension(startSize.width, startSize.height), 
 				new Dimension(startSize.x,startSize.y), mainMap, startSize, 0, 0);
-		if(WindowControler.player.main != null)
+		if(WindowControler.player.getCurrentWindow() != null && 
+				!mainMap.getCell(WindowControler.player.getCellX(), WindowControler.player.getCellY()).isTangible())
 		{
-			var temppos = new Point(WindowControler.player.mapLocation.x+player.main.main.frame.x,
-									WindowControler.player.mapLocation.y+player.main.main.frame.y);
+			var temppos = new Point(WindowControler.player.getLocation().x + player.getCurrentWindow().main.getPlaygroundOffset().x,
+									WindowControler.player.getLocation().y + player.getCurrentWindow().main.getPlaygroundOffset().y);
+			player.setMainWindow(temp);
+			player.setMapLocation(temppos);
+		}
+		else
+		{
+			var temppos = new Point((int)(((float)mainMap.getStartLocation().x+0.5f) * Playground.getCellWidth()),
+					(int) (((float)mainMap.getStartLocation().y+0.5f))* Playground.getCellHeight());
 			player.setMainWindow(temp);
 			player.setMapLocation(temppos);
 		}
@@ -171,5 +205,10 @@ public class WindowControler {
 								y / Playground.getCellHeight());
 		else
 			return new Point(0,0);
+	}
+
+	public void setCurrentType(int i) {
+		currentType = i;
+		
 	}
 }

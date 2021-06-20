@@ -15,10 +15,22 @@ import cells.SpawnPoint;
 public class Map {
 
 	public static final int COLUMNS = 40,ROWS = 20;
-	public CellBase[][] bluePrint = new CellBase[COLUMNS][ROWS];
+	private CellBase[][] bluePrint = new CellBase[COLUMNS][ROWS];
 
-	public Point startLocation;
-	public Point endLocation;
+	private Point startLocation;
+	private Point endLocation;
+	
+	public Point getStartLocation() {
+		return new Point(startLocation);
+	}
+	
+	public Point getEndLocation() {
+		return new Point(endLocation);
+	}
+	
+	public CellBase getCell(int x, int y) {
+		return bluePrint[x][y];
+	}
 	
 	public Map()
 	{

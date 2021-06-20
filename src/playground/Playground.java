@@ -2,6 +2,7 @@ package playground;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import javax.swing.JPanel;
@@ -12,10 +13,10 @@ import window.WindowControler;
 public class Playground extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	Map content;
-	public Rectangle frame;
-	static Rectangle completeSize;
-	Window windowFrame;
+	private Map content;
+	private Rectangle frame;
+	private static Rectangle completeSize;
+	private Window windowFrame;
 	
 	public Playground(Rectangle r, Map main, Rectangle complete, Window f)
 	{
@@ -30,6 +31,10 @@ public class Playground extends JPanel {
 		windowFrame = f;
 	}
 	
+	public Point getPlaygroundOffset() {
+		return new Point(frame.x, frame.y);
+	}
+	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		
@@ -37,13 +42,13 @@ public class Playground extends JPanel {
 			for (int j = frame.y /completeSize.height; j < frame.getMaxY() / getCellHeight(); j++)
 			{
 			
-				g2d.setColor(content.bluePrint[i][j].main);
+				g2d.setColor(content.getCell(i, j).getColor());
 				g2d.fill(new Rectangle(i*getCellWidth()-frame.x, j*getCellHeight()-frame.y,
 						getCellWidth(), getCellHeight()));
 			}
 		
 		
-			WindowControler.player.draw(g2d, windowFrame);
+			WindowControler.getPlayer().draw(g2d, windowFrame);
 	}
 	
 	public boolean isInFrame(int i, int j) {
@@ -53,11 +58,11 @@ public class Playground extends JPanel {
 	}
 	
 	
-	static public int getCellWidth() {
+	public static int getCellWidth() {
 		return completeSize.width / Map.COLUMNS;
 	}
 	
-	static public int getCellHeight() {
+	public static int getCellHeight() {
 		return completeSize.height / Map.ROWS;
 	}
 }
