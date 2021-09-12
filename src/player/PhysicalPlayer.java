@@ -1,4 +1,4 @@
-package metaparts;
+package player;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import window.KeyboardInputHandler;
+import InputHandlers.GameKeyboardInputHandler;
 
 public class PhysicalPlayer extends JFrame{
 
@@ -20,7 +20,7 @@ public class PhysicalPlayer extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(false);
 
-		KeyboardInputHandler.wrapWindow(this);
+		GameKeyboardInputHandler.wrapWindow(this);
 	
 		this.add(new Skin());
 	}

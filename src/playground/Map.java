@@ -32,15 +32,8 @@ public class Map {
 		return bluePrint[x][y];
 	}
 	
-	public Map()
-	{
-		
-		try {
-			load("main0");
-			//save("main0");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public Map(String mapName) throws IOException {
+		load(mapName);
 	}
 	
 	public void setCell(Point a, char id)
@@ -66,7 +59,7 @@ public class Map {
 	}
 	
 	public void load(String string) throws IOException {
-		File targ= new File("maps\\" + string + ".txt");
+		File targ= new File("maps/" + string + ".txt");
 		BufferedReader reader= new BufferedReader(new FileReader(targ));
 		for (int j = 0; j < ROWS; j++)
 			for (int i = 0; i < COLUMNS; i++)

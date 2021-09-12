@@ -7,8 +7,8 @@ import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
-import window.Window;
-import window.WindowControler;
+import windows.GameWindow;
+import windows.WindowControler;
 
 public class Playground extends JPanel {
 
@@ -16,17 +16,20 @@ public class Playground extends JPanel {
 	private Map content;
 	private Rectangle frame;
 	private static Rectangle completeSize;
-	private Window windowFrame;
+	private GameWindow windowFrame;
+	private WindowControler controler;
+
 	
-	public Playground(Rectangle r, Map main, Rectangle complete, Window f)
+	public Playground(Rectangle r, Map main, Rectangle complete, GameWindow f)
 	{
+
 		windowFrame = f;
 		frame = r;
 		content = main;
 		completeSize = complete;
 	}
 	
-	public void updateWindow(Window f)
+	public void updateWindow(GameWindow f)
 	{
 		windowFrame = f;
 	}
@@ -43,11 +46,11 @@ public class Playground extends JPanel {
 			{
 			
 				g2d.setColor(content.getCell(i, j).getColor());
-				g2d.fill(new Rectangle(i*getCellWidth()-frame.x, j*getCellHeight()-frame.y,
+				g2d.fill(new Rectangle(i*getCellWidth() - frame.x, j*getCellHeight() - frame.y,
 						getCellWidth(), getCellHeight()));
 			}
 		
-		
+		if (WindowControler.getPlayer() != null)
 			WindowControler.getPlayer().draw(g2d, windowFrame);
 	}
 	

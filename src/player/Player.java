@@ -1,4 +1,4 @@
-package metaparts;
+package player;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -10,8 +10,8 @@ import java.awt.geom.Point2D;
 import cells.Goal;
 import playground.Map;
 import playground.Playground;
-import window.Window;
-import window.WindowControler;
+import windows.GameWindow;
+import windows.WindowControler;
 
 public class Player {
 	private Rectangle currentOffset = null;
@@ -19,7 +19,7 @@ public class Player {
 	private Point mapCell;
 	public static final int width = 14;
 	public static final int height = 25;
-	private Window currentWindow;
+	private GameWindow currentWindow;
 	private WindowControler controler;
 	private Point2D velocity = new Point2D.Double(0,0);
 	private float velBuffer = 0;
@@ -37,7 +37,7 @@ public class Player {
 		velocity.setLocation(x, y);
 	}
 	
-	public Window getCurrentWindow() {
+	public GameWindow getCurrentWindow() {
 		return currentWindow;
 	}
 	
@@ -49,17 +49,17 @@ public class Player {
 		currentOffset = new Rectangle(toSet);
 	}
 	
-	public Player(Map m, Window w, WindowControler wc) {
+	public Player(Map m, GameWindow w, WindowControler wc) {
 		controler = wc;
-		setCell(m.getStartLocation().x, m.getEndLocation().y);
-		mapLocation=new Point((int) (((float)mapCell.x + 0.5f) * Playground.getCellWidth()),
+		setCell(m.getStartLocation().x, m.getStartLocation().y);
+		mapLocation = new Point((int) (((float)mapCell.x + 0.5f) * Playground.getCellWidth()),
 								(int) (((float)mapCell.y + 0.5f))* Playground.getCellHeight());
 		
 		doll = new PhysicalPlayer(mapLocation.x - width/2, mapLocation.y - height/2);
 		setMainWindow(w);
 		
 	}
-	public void draw(Graphics2D g, Window f) {
+	public void draw(Graphics2D g, GameWindow f) {
 		if (currentWindow == null || !isOnEdgeOfWindow(currentWindow).equals(new Point(0,0))) {
 			if (!doll.isVisible())
 				doll.setVisible(true);
@@ -101,7 +101,7 @@ public class Player {
 	public void setMapLocation(Point pos) {
 		mapLocation.setLocation(pos);
 	}
-	public void setMainWindow(Window w) {
+	public void setMainWindow(GameWindow w) {
 		if(currentOffset != null) {
 			mapLocation.x += currentOffset.x - w.getBounds().x;
 			mapLocation.y += currentOffset.y - w.getBounds().y;
@@ -129,7 +129,7 @@ public class Player {
 		return isTouchingCellOfWindowX(x, y, mapCell, currentWindow);
 	}
 	
-	public boolean isTouchingCellOfWindowX(int x, int y, Point pos, Window toCheck) {
+	public boolean isTouchingCellOfWindowX(int x, int y, Point pos, GameWindow toCheck) {
 		if (Math.abs(y) <= 1 && Math.abs(x) == 1) {
 			boolean toReturn = toCheck.main.isInFrame(pos.x + x, pos.y + y) && 
 			controler.getCell(pos.x + x, pos.y + y).isTangible() &&
@@ -146,7 +146,7 @@ public class Player {
 		return false;
 	}
 	
-	public boolean isTouchingCellOfWindowY(int x, int y, Point pos, Window toCheck) {
+	public boolean isTouchingCellOfWindowY(int x, int y, Point pos, GameWindow toCheck) {
 		if (Math.abs(x) <= 1 && Math.abs(y) == 1) {
 			boolean toReturn = toCheck.main.isInFrame(pos.x + x, pos.y + y) && 
 			controler.getCell(pos.x + x, pos.y + y).isTangible() &&
@@ -168,7 +168,7 @@ public class Player {
 		
 		return isItTouchingSide(p, currentWindow);
 	}
-	private boolean isItTouchingSide(Point p,Window w) {
+	private boolean isItTouchingSide(Point p,GameWindow w) {
 		int x = (int) Math.signum(p.getX());
 		int y = (int) Math.signum(p.getY());
 		boolean test = false;
@@ -227,7 +227,7 @@ public class Player {
 		
 		boolean test = isItTouchingSide(new Point(0,1));
 		if(!test) {
-			for(Window w : controler.windows) {
+			for(GameWindow w : controler.gameWindows) {
 				if(isItTouchingSide(new Point(0,1), w)) {
 					velocity.setLocation(velocity.getX(), -5);
 					velBuffer = 5;
@@ -268,7 +268,7 @@ public class Player {
 			mapLocation.x = -currentOffset.x;
 		}
 		if(currentWindow != null && (isOnEdgeOfWindow(currentWindow).x != 0 || isOnEdgeOfWindow(currentWindow).y != 0))
-			for(Window w : controler.windows) {
+			for(GameWindow w : controler.gameWindows) {
 				if((w != currentWindow && 
 						isOnEdgeOfWindow(w).x != 0 || isOnEdgeOfWindow(w).y != 0) && 
 						currentWindow.getBounds().createIntersection(w.getBounds()).isEmpty())
@@ -316,7 +316,7 @@ public class Player {
 		}
 		
 		if(currentWindow != null && (isOnEdgeOfWindow(currentWindow).x != 0 || isOnEdgeOfWindow(currentWindow).y != 0))
-			for(Window w : controler.windows) {
+			for(GameWindow w : controler.gameWindows) {
 				if((w != currentWindow && 
 						isOnEdgeOfWindow(w).x != 0 || isOnEdgeOfWindow(w).y != 0) && 
 						currentWindow.getBounds().createIntersection(w.getBounds()).isEmpty())
@@ -370,7 +370,7 @@ public class Player {
 			setCell(i, j);
 			if (isOnEdgeOfWindow(currentWindow).x != 0 || isOnEdgeOfWindow(currentWindow).y != 0) {
 				int area = width * height / 2;
-				for(Window w: controler.windows) {
+				for(GameWindow w: controler.gameWindows) {
 					
 					if(w == currentWindow || 
 							isOnEdgeOfWindow(w).x == 0 && isOnEdgeOfWindow(w).y == 0 ||
@@ -396,7 +396,7 @@ public class Player {
 			}
 		}
 		else {
-			for (Window w : controler.windows) {
+			for (GameWindow w : controler.gameWindows) {
 				if (isOnEdgeOfWindow(w).x != 0 || isOnEdgeOfWindow(w).y != 0) {
 					if (isOnEdgeOfWindow(w).x * velocity.getX() <= 0 && isOnEdgeOfWindow(w).y * velocity.getY() <= 0) {
 						setMainWindow(w);
@@ -465,7 +465,7 @@ public class Player {
 		
 		return mapLocation.y + (int) Math.signum(dir) * height/2 + currentOffset.y;
 	}
-	public Point isOnEdgeOfWindow(Window w) {
+	public Point isOnEdgeOfWindow(GameWindow w) {
 		
 		Point p = new Point();
 		if (w.getBounds().x >= getAbsoluteSidePositionX(-1) && w.getBounds().x <= getAbsoluteSidePositionX(1) &&

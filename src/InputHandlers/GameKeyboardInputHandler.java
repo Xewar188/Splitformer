@@ -1,84 +1,41 @@
-package window;
+package InputHandlers;
+
+import windows.WindowControler;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.util.function.Consumer;
+import java.security.Key;
 
 import javax.swing.JFrame;
 
-public class KeyboardInputHandler implements KeyListener {
+public class GameKeyboardInputHandler implements KeyListener {
 
 	private static WindowControler controler;
-	private boolean writing = false;
-	private String message = "";
-	private Consumer<String> endMessage;
 	
 	public static void setControler (WindowControler c) {
 		controler = c;
 	}
 	
-	public KeyboardInputHandler(){}
+	public GameKeyboardInputHandler(){}
 	
 	public static void wrapWindow(JFrame w)
 	{
-		w.addKeyListener(new KeyboardInputHandler());
+		w.addKeyListener(new GameKeyboardInputHandler());
 	}
 	
 	public void keyTyped(KeyEvent e) {
-		if (writing)
-			return;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
-		if (writing)
-			if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
-			{
-				writing = false;
-				message = "";
-				return;	
-			}
-			else if(e.getKeyCode() == KeyEvent.VK_ENTER)
-			{
-				
-				endMessage.accept(message);
-				message = "";
-				writing = false;
+			if (controler.gameWindows.lastElement().isFinished()) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+					controler.completeLevel();
 				return;
 			}
-			else
-			{
-				message = message + e.getKeyChar();
-				return;
-			}
-		if (controler.isInEditorMode())
-		{
-			if (e.getKeyCode() == KeyEvent.VK_P || 
-					e.getKeyCode() == KeyEvent.VK_ESCAPE)
-			{
-				controler.exitEditorMode();
-			}
-			
-			if(e.getKeyCode() == KeyEvent.VK_S)
-			{	
-			
-				writing = true;
-				endMessage=a->{
-					try {
-						controler.getMainMap().save(a);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				};
-			}
-		}
-		else
-		{
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_ESCAPE:
-					controler.dispose();
+					controler.returnToMenu();
 					break;
 				case KeyEvent.VK_W:
 					WindowControler.getPlayer().jump();
@@ -92,17 +49,19 @@ public class KeyboardInputHandler implements KeyListener {
 				case KeyEvent.VK_M:
 					controler.merge();
 					break;
-				case KeyEvent.VK_P:
+				case KeyEvent.VK_T:
 					controler.enterEditorMode();
 					break;
 			}
-		}
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(writing)
+
+		if (controler.gameWindows.lastElement().isFinished())
 			return;
+
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_W:
 			WindowControler.getPlayer().endJump();
