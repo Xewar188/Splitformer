@@ -1,14 +1,14 @@
 package InputHandlers;
 
-import menuGui.GameMenu;
+import menuGui.GameMenuPanel;
 import windows.MenuWindow;
 
 import java.awt.event.*;
 
 public class ButtonMouseInputHandler extends MenuMouseInputHandler{
-    private GameMenu target;
+    private GameMenuPanel target;
     private MouseListener[] windowListeners;
-    public ButtonMouseInputHandler(GameMenu t, MouseListener[] mouseListeners, MenuWindow w) {
+    public ButtonMouseInputHandler(GameMenuPanel t, MouseListener[] mouseListeners, MenuWindow w) {
         super(w);
         target = t;
     }

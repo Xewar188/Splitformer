@@ -1,22 +1,24 @@
 package buttons;
 
 import playground.Map;
-import windows.WindowControler;
+import windows.WindowController;
 
 import java.awt.*;
 
 public class PlayButton extends Button{
-    private Rectangle body;
-    private WindowControler target;
-    private Map level;
+    private final Rectangle body;
+    private final WindowController target;
+    private final Map level;
 
-    public PlayButton(int x, int y, int sideLength, WindowControler target, Map level) {
+    public PlayButton(int x, int y, int sideLength, WindowController target, Map level) {
         body = new Rectangle(x, y, sideLength, sideLength);
         this.setBounds(body);
         this.target = target;
         this.level = level;
 
     }
+
+    @Override
     public void draw(Graphics2D g) {
 
         g.setColor(Color.gray);
@@ -30,6 +32,7 @@ public class PlayButton extends Button{
                         (int) (body.getY() + body.getHeight() / 2 + Math.sin(0) * body.getWidth() / 3)}
                 ,3);
     }
+
     @Override
     public boolean tryPress(int x, int y) {
         if (body.contains(x,y)) {

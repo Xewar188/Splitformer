@@ -3,6 +3,7 @@ package player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.Serial;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -10,6 +11,7 @@ import InputHandlers.GameKeyboardInputHandler;
 
 public class PhysicalPlayer extends JFrame{
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	public PhysicalPlayer(int x, int y) {
@@ -26,6 +28,7 @@ public class PhysicalPlayer extends JFrame{
 	}
 }
 	class Skin extends JPanel {
+		@Serial
 		private static final long serialVersionUID = 1L;
 
 		public void paintComponent(Graphics g) {

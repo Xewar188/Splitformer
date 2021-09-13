@@ -1,9 +1,8 @@
 package InputHandlers;
 
 import windows.EditWindow;
-import windows.WindowControler;
+import windows.WindowController;
 
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
@@ -11,13 +10,13 @@ import java.util.function.Consumer;
 
 public class EditKeyboradInputHandler implements KeyListener {
 
-    private static WindowControler controler;
+    private static WindowController controler;
     private boolean writing = false;
     private StringBuilder message = new StringBuilder();
     private Consumer<String> endMessage;
-    private EditWindow target;
+    private final EditWindow target;
 
-    public static void setControler (WindowControler c) {
+    public static void setControler (WindowController c) {
         controler = c;
     }
 

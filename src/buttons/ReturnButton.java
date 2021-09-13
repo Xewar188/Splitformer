@@ -5,12 +5,15 @@ import windows.MenuWindow;
 import java.awt.*;
 
 public class ReturnButton extends Button{
-    private Rectangle body;
-    private MenuWindow target;
+    private final Rectangle body;
+    private final MenuWindow target;
     public ReturnButton(int x, int y, int sideLength, MenuWindow target) {
         body = new Rectangle(x, y, sideLength, sideLength);
         this.target = target;
+        this.setBounds(body);
     }
+
+    @Override
     public void draw(Graphics2D g) {
 
         g.setColor(Color.gray);
@@ -24,6 +27,7 @@ public class ReturnButton extends Button{
                         (int) (body.getY() + body.getHeight() / 2 + Math.sin(0) * body.getWidth() / 4)}
                 ,3);
     }
+
     @Override
     public boolean tryPress(int x, int y) {
         if (body.contains(x,y))

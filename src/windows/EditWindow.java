@@ -2,11 +2,6 @@ package windows;
 
 import InputHandlers.EditKeyboradInputHandler;
 import InputHandlers.EditMouseInputHandler;
-import InputHandlers.GameKeyboardInputHandler;
-import InputHandlers.GameMouseInputHandler;
-import cells.CellBase;
-import playground.Map;
-import playground.Playground;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +10,7 @@ import java.awt.event.*;
 public class EditWindow extends GameWindow {
     private boolean isInWritingMode = false;
     private final Overlay overlay;
-    public EditWindow(Dimension size, Dimension pos, WindowControler con, Rectangle maxSize, int mainx, int mainy)
+    public EditWindow(Dimension size, Dimension pos, WindowController con, Rectangle maxSize, int mainx, int mainy)
     {
         super(size, pos, con, maxSize, mainx, mainy);
         for (MouseListener m : this.getMouseListeners())
@@ -54,11 +49,12 @@ public class EditWindow extends GameWindow {
 class Overlay extends JComponent {
 
     private boolean isInWritingMode = false;
-    private String message = "";
+    private String message;
     public Overlay(int width, int height, String message) {
         this.setSize(width, height);
         this.message = message;
     }
+
     @Override
     public void paintComponent(Graphics g) {
         if (isInWritingMode) {
@@ -78,7 +74,7 @@ class Overlay extends JComponent {
             g.drawString(this.message, this.getWidth() / 2 - 180 + 4, this.getHeight() / 2 + 15 - 2);
         }
         else {
-            g.setColor(WindowControler.getCurrentColor());
+            g.setColor(WindowController.getCurrentColor());
             g.fillRect(4,4,8,8);
         }
     }

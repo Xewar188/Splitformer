@@ -1,17 +1,19 @@
 package buttons;
 
-import InputHandlers.ButtonMouseInputHandler;
 import windows.MenuWindow;
 
 import java.awt.*;
 
 public class StartButton extends Button{
-    private Rectangle body;
-    private MenuWindow target;
+    private final Rectangle body;
+    private final MenuWindow target;
     public StartButton(int x, int y, int sideLength, MenuWindow target) {
         body = new Rectangle(x, y, sideLength, sideLength);
         this.target = target;
+        this.setBounds(body);
     }
+
+    @Override
     public void draw(Graphics2D g) {
 
         g.setColor(Color.gray);
@@ -25,6 +27,7 @@ public class StartButton extends Button{
                         (int) (body.getY() + body.getHeight() / 2 + Math.sin(0) * body.getWidth() / 3)}
                 ,3);
     }
+
     @Override
     public boolean tryPress(int x, int y) {
         if (body.contains(x,y))

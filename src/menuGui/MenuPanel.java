@@ -5,21 +5,21 @@ import buttons.CreateButton;
 import buttons.LevelLabel;
 import buttons.ReturnButton;
 import windows.MenuWindow;
-import windows.WindowControler;
+import windows.WindowController;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Vector;
 
-public class MenuPanel extends  GameMenu{
+public class MenuPanel extends GameMenuPanel {
 
     Font textFont;
     ReturnButton returnButton;
     CreateButton createButton;
     Vector<LevelLabel> levels = new Vector<>();
 
-    public MenuPanel(Rectangle size, MenuWindow window, WindowControler controller) throws Exception {
+    public MenuPanel(Rectangle size, MenuWindow window, WindowController controller) throws Exception {
         this.setSize(size.width, size.height);
         textFont = new Font("Dialog", Font.BOLD, 20);
 
@@ -34,7 +34,7 @@ public class MenuPanel extends  GameMenu{
         createLabels(controller);
     }
 
-    private void createLabels(WindowControler controller) {
+    private void createLabels(WindowController controller) {
         File[] files = new File("maps/").listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {

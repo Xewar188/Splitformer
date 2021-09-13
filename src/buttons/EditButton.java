@@ -1,21 +1,23 @@
 package buttons;
 
 import playground.Map;
-import windows.WindowControler;
+import windows.WindowController;
 
 import java.awt.*;
 
 public class EditButton extends Button{
-    private Rectangle body;
-    private WindowControler target;
-    private Map level;
+    private final Rectangle body;
+    private final WindowController target;
+    private final Map level;
 
-    public EditButton(int x, int y, int sideLength, WindowControler target, Map level) {
+    public EditButton(int x, int y, int sideLength, WindowController target, Map level) {
         body = new Rectangle(x, y, sideLength, sideLength);
         this.setBounds(body);
         this.target = target;
         this.level = level;
     }
+
+    @Override
     public void draw(Graphics2D g) {
 
         g.setColor(Color.gray);
@@ -33,6 +35,7 @@ public class EditButton extends Button{
                         (int) (this.getY() + this.getHeight()/2 - this.getWidth()/2 * Math.sin(Math.toRadians(232)))},
                 5);
     }
+
     @Override
     public boolean tryPress(int x, int y) {
         if (body.contains(x,y)) {

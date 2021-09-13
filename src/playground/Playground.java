@@ -4,20 +4,21 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.Serial;
 
 import javax.swing.JPanel;
 
 import windows.GameWindow;
-import windows.WindowControler;
+import windows.WindowController;
 
 public class Playground extends JPanel {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
-	private Map content;
-	private Rectangle frame;
+	private final Map content;
+	private final Rectangle frame;
 	private static Rectangle completeSize;
-	private GameWindow windowFrame;
-	private WindowControler controler;
+	private final GameWindow windowFrame;
 
 	
 	public Playground(Rectangle r, Map main, Rectangle complete, GameWindow f)
@@ -28,12 +29,7 @@ public class Playground extends JPanel {
 		content = main;
 		completeSize = complete;
 	}
-	
-	public void updateWindow(GameWindow f)
-	{
-		windowFrame = f;
-	}
-	
+
 	public Point getPlaygroundOffset() {
 		return new Point(frame.x, frame.y);
 	}
@@ -50,14 +46,14 @@ public class Playground extends JPanel {
 						getCellWidth(), getCellHeight()));
 			}
 		
-		if (WindowControler.getPlayer() != null)
-			WindowControler.getPlayer().draw(g2d, windowFrame);
+		if (WindowController.getPlayer() != null)
+			WindowController.getPlayer().draw(g2d, windowFrame);
 	}
 	
 	public boolean isInFrame(int i, int j) {
 		return i >= 0 && i < Map.COLUMNS && j >= 0 && j < Map.ROWS &&
-				i >= (int) (frame.x / getCellWidth()) && i < (int) (Math.ceil(frame.getMaxX() / getCellWidth())) &&
-				j >= (int) (frame.y / getCellHeight()) && j < (int) (Math.ceil(frame.getMaxY() / getCellHeight()));
+				i >= (frame.x / getCellWidth()) && i < (int) (Math.ceil(frame.getMaxX() / getCellWidth())) &&
+				j >= (frame.y / getCellHeight()) && j < (int) (Math.ceil(frame.getMaxY() / getCellHeight()));
 	}
 	
 	

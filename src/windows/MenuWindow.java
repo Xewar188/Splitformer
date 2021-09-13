@@ -1,22 +1,21 @@
 package windows;
 
 import InputHandlers.MenuKeyboardInputHandler;
-import InputHandlers.MenuMouseInputHandler;
-import buttons.LevelLabel;
-import cells.CellBase;
 import menuGui.InitialPanel;
 import menuGui.MenuPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serial;
 
 public class MenuWindow extends JFrame {
+    @Serial
     private static final long serialVersionUID = 1L;
-    private InitialPanel main;
-    private MenuPanel gameMenu;
+    private final InitialPanel main;
+    private final MenuPanel gameMenu;
     private boolean isInInitialMenu = true;
-    private WindowControler controller;
-    public MenuWindow(Dimension size, Dimension pos, WindowControler controller) throws Exception
+    private final WindowController controller;
+    public MenuWindow(Dimension size, Dimension pos, WindowController controller) throws Exception
     {
         this.controller = controller;
         this.setUndecorated(true);
@@ -28,14 +27,12 @@ public class MenuWindow extends JFrame {
         MenuKeyboardInputHandler.wrapWindow(this);
         main = new InitialPanel(this.getBounds(), this);
 
+
         gameMenu = new MenuPanel(this.getBounds(), this, controller);
         this.add(main);
         this.setVisible(true);
     }
 
-    public boolean isInInitialMenu() {
-        return isInInitialMenu;
-    }
     public void enterGame() {
         if (isInInitialMenu) {
             this.remove(main);

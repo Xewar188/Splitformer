@@ -1,17 +1,19 @@
 package buttons;
 
-import windows.MenuWindow;
-import windows.WindowControler;
+import windows.WindowController;
 
 import java.awt.*;
 
 public class ContinueButton extends Button {
-    private Rectangle body;
-    private WindowControler target;
-    public ContinueButton(int x, int y, int sideLength, WindowControler target) {
+    private final Rectangle body;
+    private final WindowController target;
+    public ContinueButton(int x, int y, int sideLength, WindowController target) {
         body = new Rectangle(x, y, sideLength, sideLength);
+        this.setBounds(body);
         this.target = target;
     }
+
+    @Override
     public void draw(Graphics2D g) {
 
         g.setColor(Color.gray);
@@ -25,6 +27,7 @@ public class ContinueButton extends Button {
                         (int) (body.getY() + body.getHeight() / 2 + Math.sin(0) * body.getWidth() / 3)}
                 ,3);
     }
+
     @Override
     public boolean tryPress(int x, int y) {
         if (body.contains(x,y))

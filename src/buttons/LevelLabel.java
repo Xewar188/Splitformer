@@ -1,20 +1,21 @@
 package buttons;
 
 import playground.Map;
-import windows.WindowControler;
+import windows.WindowController;
 
 import java.awt.*;
 
-public class LevelLabel{
+public class LevelLabel extends Button{
 
     String levelName;
     Rectangle body;
     EditButton editButton;
     PlayButton playButton;
-    public LevelLabel(Rectangle position, String levelName, WindowControler control) {
+    public LevelLabel(Rectangle position, String levelName, WindowController control) {
         this.levelName = levelName;
         body = position;
         Map targetMap;
+        this.setBounds(body);
         try {
             targetMap = new Map(levelName);
         }
@@ -34,6 +35,8 @@ public class LevelLabel{
 
 
     }
+
+    @Override
     public void draw(Graphics2D g) {
         g.setColor(Color.gray.brighter());
         g.fill(body);
@@ -44,6 +47,7 @@ public class LevelLabel{
         playButton.draw(g);
     }
 
+    @Override
     public boolean tryPress(int x, int y) {
         if (editButton.tryPress(x, y))
             return true;

@@ -8,16 +8,14 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import cells.CellBase;
-import player.Player;
 import windows.GameWindow;
-import windows.WindowControler;
+import windows.WindowController;
 
 public class GameMouseInputHandler implements MouseListener, MouseMotionListener, MouseWheelListener {
 
-	private GameWindow target;
+	private final GameWindow target;
 	private Point pPos = null;
-	private static WindowControler controler;
+	private static WindowController controller;
 	
 	public GameMouseInputHandler(GameWindow t)
 	{
@@ -25,8 +23,8 @@ public class GameMouseInputHandler implements MouseListener, MouseMotionListener
 		
 	}
 	
-	public static void setControler (WindowControler c) {
-		controler = c;
+	public static void setController(WindowController c) {
+		controller = c;
 	}
 	
 	public static void wrapWindow(GameWindow w)
@@ -48,19 +46,19 @@ public class GameMouseInputHandler implements MouseListener, MouseMotionListener
 		target.setLocation(target.getLocation().x + e.getLocationOnScreen().x - pPos.x,
 							target.getLocation().y + e.getLocationOnScreen().y - pPos.y);
 
-		if(WindowControler.getPlayer().getCurrentWindow() == null ||
-				WindowControler.getPlayer().isOnEdgeOfWindow(WindowControler.getPlayer().getCurrentWindow()).x != 0 ||
-				WindowControler.getPlayer().isOnEdgeOfWindow(WindowControler.getPlayer().getCurrentWindow()).y != 0)
+		if(WindowController.getPlayer().getCurrentWindow() == null ||
+				WindowController.getPlayer().isOnEdgeOfWindow(WindowController.getPlayer().getCurrentWindow()).x != 0 ||
+				WindowController.getPlayer().isOnEdgeOfWindow(WindowController.getPlayer().getCurrentWindow()).y != 0)
 		{
-		WindowControler.getPlayer().correctLocation(new Point((int) -Math.signum(e.getLocationOnScreen().x - pPos.x),
+		WindowController.getPlayer().correctLocation(new Point((int) -Math.signum(e.getLocationOnScreen().x - pPos.x),
 															(int) -Math.signum(e.getLocationOnScreen().y - pPos.y)));
 		}
 
 		pPos = e.getLocationOnScreen();
 
-		if(WindowControler.getPlayer().getCurrentWindow() == target)
+		if(WindowController.getPlayer().getCurrentWindow() == target)
 		{
-			WindowControler.getPlayer().setCurrentOffset(new Rectangle(target.getBounds()));
+			WindowController.getPlayer().setCurrentOffset(new Rectangle(target.getBounds()));
 		}
 
 
@@ -68,19 +66,19 @@ public class GameMouseInputHandler implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (controler.gameWindows.lastElement().isFinished()) {
-			controler.gameWindows.lastElement().tryPress(e.getX(), e.getY());
+		if (controller.gameWindows.lastElement().isFinished()) {
+			controller.gameWindows.lastElement().tryPress(e.getX(), e.getY());
 			return;
 		}
-		if(WindowControler.getPlayer().getCurrentWindow() == null ||
-				!WindowControler.getPlayer().isOnEdgeOfWindow(WindowControler.getPlayer().getCurrentWindow()).equals(new Point(0,0)))
+		if(WindowController.getPlayer().getCurrentWindow() == null ||
+				!WindowController.getPlayer().isOnEdgeOfWindow(WindowController.getPlayer().getCurrentWindow()).equals(new Point(0,0)))
 			return;
 		if(e.getButton() == MouseEvent.BUTTON1)
-			controler.splitVerticaly(WindowControler.getPlayer().getCurrentWindow(),
-										WindowControler.getPlayer().getLocation().x);
+			controller.splitVertically(WindowController.getPlayer().getCurrentWindow(),
+										WindowController.getPlayer().getLocation().x);
 		else if(e.getButton() == MouseEvent.BUTTON3)
-			controler.splitHorizontaly(WindowControler.getPlayer().getCurrentWindow(),
-										WindowControler.getPlayer().getLocation().y);
+			controller.splitHorizontally(WindowController.getPlayer().getCurrentWindow(),
+										WindowController.getPlayer().getLocation().y);
 
 	}
 

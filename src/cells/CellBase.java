@@ -10,7 +10,7 @@ public abstract class CellBase {
 	protected Color main = Color.black;
 	protected char id = '-';
 	protected boolean splitable = true;
-	private static Connector[] compedium = 
+	private static final Connector[] compedium =
 		{
 				new Connector('0',a->new Air()),
 				new Connector('1',a->new Stone()),
@@ -19,7 +19,7 @@ public abstract class CellBase {
 				new Connector('4',a->new NotSplitableRock())
 				};
 	
-	private static Vector<Character> idCompedium= new Vector<>();
+	private static final Vector<Character> idCompedium= new Vector<>();
 	
 	private static class Connector
 	{

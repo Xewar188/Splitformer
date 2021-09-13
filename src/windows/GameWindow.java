@@ -1,24 +1,24 @@
 package windows;
 
 import java.awt.*;
+import java.io.Serial;
 
 import javax.swing.*;
 
 import InputHandlers.GameKeyboardInputHandler;
 import InputHandlers.GameMouseInputHandler;
 import buttons.ContinueButton;
-import cells.CellBase;
-import playground.Map;
 import playground.Playground;
 
 public class GameWindow extends JFrame {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	int x, y;
 	public Playground main;
 	private boolean isFinished = false;
-	private EndMessage end;
-	public GameWindow(Dimension size, Dimension pos, WindowControler controler, Rectangle maxSize, int mainx, int mainy)
+	private final EndMessage end;
+	public GameWindow(Dimension size, Dimension pos, WindowController controler, Rectangle maxSize, int mainx, int mainy)
 	{
 		this.setUndecorated(true);
 		this.setResizable(false);
@@ -60,7 +60,7 @@ public class GameWindow extends JFrame {
 class EndMessage extends JComponent {
 
 	ContinueButton continueButton;
-	public EndMessage(int width, int height, WindowControler cont) {
+	public EndMessage(int width, int height, WindowController cont) {
 		this.setSize(width, height);
 		continueButton = new ContinueButton(this.getWidth()/2 - this.getWidth() / 20,
 				this.getHeight()/2 - this.getWidth() / 20, this.getWidth()/10, cont);

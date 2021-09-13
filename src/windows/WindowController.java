@@ -13,10 +13,10 @@ import player.Player;
 import playground.Map;
 import playground.Playground;
 
-public class WindowControler {
+public class WindowController {
 
 	private MenuWindow menuWindow;
-	public Vector<GameWindow> gameWindows = new Vector<GameWindow>();
+	public Vector<GameWindow> gameWindows = new Vector<>();
 	private EditWindow editWindow;
 	private Map mainMap;
 	private final Rectangle startSize;
@@ -25,38 +25,35 @@ public class WindowControler {
 	private static int currentType = 0;
 	private boolean canBeEdited = false;
 
-	public WindowControler()
+	public WindowController()
 	{
 		startSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize().width/4, 
 									Toolkit.getDefaultToolkit().getScreenSize().height/4,
 									Toolkit.getDefaultToolkit().getScreenSize().width/2, 
 									Toolkit.getDefaultToolkit().getScreenSize().height/2);
-		GameKeyboardInputHandler.setControler(this);
-		GameMouseInputHandler.setControler(this);
-		MenuKeyboardInputHandler.setControler(this);
-		MenuMouseInputHandler.setControler(this);
-		EditMouseInputHandler.setControler(this);
+		GameKeyboardInputHandler.setController(this);
+		GameMouseInputHandler.setController(this);
+		EditMouseInputHandler.setController(this);
 		EditKeyboradInputHandler.setControler(this);
 
 		try {
 			menuWindow = new MenuWindow(new Dimension(startSize.width, startSize.height),
 					new Dimension(startSize.x, startSize.y), this);
 		} catch (Exception e) {
-			System.out.println(e.toString());
 			System.exit(1);
 		}
 		CellBase.fillCompedium();
 	}
 	
-	private Timer repainter = new Timer(50/3, new ActionListener() {
+	private final Timer repainter = new Timer(50/3, new ActionListener() {
 	      public void actionPerformed(ActionEvent evt) {
 	    	 for (GameWindow w : gameWindows)
 	    	 {
 	    		 w.repaint(); 
 	    	 }
-	    	 if (!inEditorMode)
+	    	 if (!inEditorMode && !gameWindows.lastElement().isFinished())
 	    		 player.move();
-	    	 else
+	    	 else if (editWindow != null)
 	    	 	editWindow.repaint();
 	      }
 	      });
@@ -77,7 +74,6 @@ public class WindowControler {
 					new Dimension(startSize.x, startSize.y), this);
 			menuWindow.enterGame();
 		} catch (Exception e) {
-			System.out.println(e.toString());
 			System.exit(1);
 		}
 
@@ -146,6 +142,8 @@ public class WindowControler {
 
 	public void endLevel()
 	{
+		if (canBeEdited)
+			return;
 		if (!gameWindows.lastElement().isFinished()) {
 			merge();
 			gameWindows.lastElement().finish();
@@ -172,7 +170,7 @@ public class WindowControler {
 			player.dispose();
 	}
 	
-	public void splitVerticaly(GameWindow w, int x)
+	public void splitVertically(GameWindow w, int x)
 	{
 		for(int i = 0; i <= w.getBounds().height / Playground.getCellWidth();i++)
 		{
@@ -186,26 +184,15 @@ public class WindowControler {
 				new Dimension(w.getLocation().x, w.getLocation().y), this, startSize, w.x, w.y));
 		gameWindows.add(new GameWindow(new Dimension(w.getSize().width - x, w.getSize().height),
 				new Dimension(w.getLocation().x + x, w.getLocation().y), this, startSize, w.x + x, w.y));
-		if(player.getCurrentWindow() == w)
-		{
-			if(gameWindows.get(gameWindows.size()-2).getBounds().contains(player.getCurrentOffset().x + player.getLocation().x,
-																	player.getCurrentOffset().y + player.getLocation().y))
-			{
-				player.setMainWindow(gameWindows.get(gameWindows.size() - 2));
-			}
-			else
-			{
-				player.setMainWindow(gameWindows.get(gameWindows.size() - 1));
-			}
-		}
+		choosePlayerWindow(w);
 		w.dispose();
 	}
 	
-	public void splitHorizontaly(GameWindow w, int y)
+	public void splitHorizontally(GameWindow w, int y)
 	{
-		for(int i = 0; i <= w.getBounds().width / Playground.getCellWidth();i++)
+		for (int i = 0; i <= w.getBounds().width / Playground.getCellWidth();i++)
 		{
-			if(!mainMap.getCell(Math.max(Math.min(i + (w.main.getPlaygroundOffset().x) / Playground.getCellWidth(), Map.COLUMNS - 1),0),
+			if (!mainMap.getCell(Math.max(Math.min(i + (w.main.getPlaygroundOffset().x) / Playground.getCellWidth(), Map.COLUMNS - 1),0),
 					Math.max(Math.min((y+w.main.getPlaygroundOffset().y) / Playground.getCellHeight(), Map.ROWS - 1),0)).canBeSplit())
 				return;
 
@@ -215,10 +202,15 @@ public class WindowControler {
 				new Dimension(w.getLocation().x, w.getLocation().y), this, startSize, w.x, w.y));
 		gameWindows.add(new GameWindow(new Dimension(w.getSize().width,w.getSize().height - y),
 				new Dimension(w.getLocation().x, w.getLocation().y + y), this, startSize, w.x, w.y + y));
-		if(player.getCurrentWindow() == w)
+		choosePlayerWindow(w);
+		w.dispose();
+	}
+
+	private void choosePlayerWindow(GameWindow w) {
+		if (player.getCurrentWindow() == w)
 		{
 			if(gameWindows.get(gameWindows.size() - 2).getBounds().contains(player.getCurrentOffset().x + player.getLocation().x,
-																	  player.getCurrentOffset().y + player.getLocation().y))
+					player.getCurrentOffset().y + player.getLocation().y))
 			{
 				player.setMainWindow(gameWindows.get(gameWindows.size() - 2));
 			}
@@ -227,18 +219,17 @@ public class WindowControler {
 				player.setMainWindow(gameWindows.get(gameWindows.size() - 1));
 			}
 		}
-		w.dispose();
 	}
-	
+
 	public void merge()
 	{
 		GameWindow temp = new GameWindow(new Dimension(startSize.width, startSize.height), 
 				new Dimension(startSize.x,startSize.y), this, startSize, 0, 0);
-		if(WindowControler.player.getCurrentWindow() != null &&
-				!mainMap.getCell(WindowControler.player.getCellX(), WindowControler.player.getCellY()).isTangible())
+		if (WindowController.player.getCurrentWindow() != null &&
+				!mainMap.getCell(WindowController.player.getCellX(), WindowController.player.getCellY()).isTangible())
 		{
-			var temppos = new Point(WindowControler.player.getLocation().x + player.getCurrentWindow().main.getPlaygroundOffset().x,
-									WindowControler.player.getLocation().y + player.getCurrentWindow().main.getPlaygroundOffset().y);
+			var temppos = new Point(WindowController.player.getLocation().x + player.getCurrentWindow().main.getPlaygroundOffset().x,
+									WindowController.player.getLocation().y + player.getCurrentWindow().main.getPlaygroundOffset().y);
 			player.setMainWindow(temp);
 			player.setMapLocation(temppos);
 		}
@@ -294,13 +285,6 @@ public class WindowControler {
 
 	public void setCurrentType(int i) {
 		currentType = i;
-	}
-
-	public void drawPlayer(Graphics2D g, GameWindow toDraw) {
-		if (inEditorMode)
-			return;
-
-		player.draw(g,toDraw);
 	}
 
 	public static Color getCurrentColor() {

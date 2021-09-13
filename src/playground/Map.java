@@ -15,7 +15,7 @@ import cells.SpawnPoint;
 public class Map {
 
 	public static final int COLUMNS = 40,ROWS = 20;
-	private CellBase[][] bluePrint = new CellBase[COLUMNS][ROWS];
+	private final CellBase[][] bluePrint = new CellBase[COLUMNS][ROWS];
 
 	private Point startLocation;
 	private Point endLocation;
@@ -59,8 +59,8 @@ public class Map {
 	}
 	
 	public void load(String string) throws IOException {
-		File targ= new File("maps/" + string + ".txt");
-		BufferedReader reader= new BufferedReader(new FileReader(targ));
+		File target = new File("maps/" + string + ".txt");
+		BufferedReader reader= new BufferedReader(new FileReader(target));
 		for (int j = 0; j < ROWS; j++)
 			for (int i = 0; i < COLUMNS; i++)
 			{
@@ -81,8 +81,8 @@ public class Map {
 	
 	public void save(String string) throws IOException
 	{
-		File targ = new File("maps\\"+string+".txt");
-		BufferedWriter writer = new BufferedWriter(new FileWriter(targ));
+		File target = new File("maps\\"+string+".txt");
+		BufferedWriter writer = new BufferedWriter(new FileWriter(target));
 		
 		for (int j = 0; j < ROWS; j++)
 		{

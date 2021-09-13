@@ -1,19 +1,18 @@
 package InputHandlers;
 
-import windows.WindowControler;
+import windows.WindowController;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.security.Key;
 
 import javax.swing.JFrame;
 
 public class GameKeyboardInputHandler implements KeyListener {
 
-	private static WindowControler controler;
+	private static WindowController controller;
 	
-	public static void setControler (WindowControler c) {
-		controler = c;
+	public static void setController(WindowController c) {
+		controller = c;
 	}
 	
 	public GameKeyboardInputHandler(){}
@@ -28,51 +27,39 @@ public class GameKeyboardInputHandler implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-			if (controler.gameWindows.lastElement().isFinished()) {
+			if (controller.gameWindows.lastElement().isFinished()) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
-					controler.completeLevel();
+					controller.completeLevel();
 				return;
 			}
-			switch (e.getKeyCode()) {
-				case KeyEvent.VK_ESCAPE:
-					controler.returnToMenu();
-					break;
-				case KeyEvent.VK_W:
-					WindowControler.getPlayer().jump();
-					break;
-				case KeyEvent.VK_D:
-					WindowControler.getPlayer().setVelocity(2, WindowControler.getPlayer().getVelocity().getY());
-					break;
-				case KeyEvent.VK_A:
-					WindowControler.getPlayer().setVelocity(-2, WindowControler.getPlayer().getVelocity().getY());
-					break;
-				case KeyEvent.VK_M:
-					controler.merge();
-					break;
-				case KeyEvent.VK_T:
-					controler.enterEditorMode();
-					break;
-			}
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_ESCAPE -> controller.returnToMenu();
+			case KeyEvent.VK_W -> WindowController.getPlayer().jump();
+			case KeyEvent.VK_D -> WindowController.getPlayer().setVelocity(2, WindowController.getPlayer().getVelocity().getY());
+			case KeyEvent.VK_A -> WindowController.getPlayer().setVelocity(-2, WindowController.getPlayer().getVelocity().getY());
+			case KeyEvent.VK_M -> controller.merge();
+			case KeyEvent.VK_T -> controller.enterEditorMode();
+		}
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 
-		if (controler.gameWindows.lastElement().isFinished())
+		if (controller.gameWindows.lastElement().isFinished())
 			return;
 
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_W:
-			WindowControler.getPlayer().endJump();
+			WindowController.getPlayer().endJump();
 			break;
 		case KeyEvent.VK_D:
-			if (WindowControler.getPlayer().getVelocity().getX() > 0)
-				WindowControler.getPlayer().setVelocity(0, WindowControler.getPlayer().getVelocity().getY());
+			if (WindowController.getPlayer().getVelocity().getX() > 0)
+				WindowController.getPlayer().setVelocity(0, WindowController.getPlayer().getVelocity().getY());
 			break;
 		case KeyEvent.VK_A:
-			if (WindowControler.getPlayer().getVelocity().getX() < 0)
-				WindowControler.getPlayer().setVelocity(0, WindowControler.getPlayer().getVelocity().getY());
+			if (WindowController.getPlayer().getVelocity().getX() < 0)
+				WindowController.getPlayer().setVelocity(0, WindowController.getPlayer().getVelocity().getY());
 			break;
 		}
 		
