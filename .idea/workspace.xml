@@ -2,35 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d5e0f43-055d-4535-ac3b-8379277a5816" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InputHandlers/ButtonMouseInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputHandlers/ButtonMouseInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InputHandlers/EditKeyboradInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputHandlers/EditKeyboradInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InputHandlers/EditMouseInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputHandlers/EditMouseInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InputHandlers/GameKeyboardInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputHandlers/GameKeyboardInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InputHandlers/GameMouseInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputHandlers/GameMouseInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InputHandlers/MenuKeyboardInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputHandlers/MenuKeyboardInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InputHandlers/MenuMouseInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputHandlers/MenuMouseInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/buttons/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/buttons/Button.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/buttons/ContinueButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/buttons/ContinueButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/buttons/CreateButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/buttons/CreateButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/buttons/EditButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/buttons/EditButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/buttons/LevelLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/buttons/LevelLabel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/buttons/PlayButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/buttons/PlayButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/buttons/ReturnButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/buttons/ReturnButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/buttons/StartButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/buttons/StartButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cells/CellBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cells/CellBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menuGui/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/menuGui/GameMenuPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menuGui/InitialPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/menuGui/InitialPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menuGui/MenuPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/menuGui/MenuPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/player/PhysicalPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/player/PhysicalPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/playground/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/playground/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/playground/Playground.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/playground/Playground.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/windows/EditWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/windows/EditWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/windows/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/windows/GameWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/windows/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/windows/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/windows/MenuWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/windows/MenuWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/windows/WindowControler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/windows/WindowController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,13 +55,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -112,6 +87,7 @@
       <workItem from="1631479978049" duration="26000" />
       <workItem from="1631522964998" duration="4458000" />
       <workItem from="1631535303838" duration="1914000" />
+      <workItem from="1631537277481" duration="468000" />
     </task>
     <servers />
   </component>
